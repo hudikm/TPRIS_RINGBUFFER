@@ -23,35 +23,27 @@ bool RbufferIsFull(buffer_t *buffer) {
 size_t RbufferWrite(buffer_t *buffer, const uint8_t *src, size_t count) {
 	size_t nBytes = 0;
 
-	while (count--) {
-		*buffer->wPt = *src;
-		src++;
-		nBytes++;
-		buffer->count++;
-		buffer->wPt = incrementAddress(buffer, buffer->wPt);
-
-		// Check for overflow
-		if (buffer->count > buffer->size) {
-			buffer->rPt = incrementAddress(buffer, buffer->rPt); // Increment address of read pointer
-			buffer->overflow = true; // Set overflow flag
-			buffer->count = buffer->size;
-		}
-	}
+/**
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
 	return nBytes;
 }
 
 size_t RbufferRead(buffer_t *buffer, uint8_t *out, size_t count) {
 	size_t nBytes = 0;
-	while (count-- && buffer->count) {
-		*out = *buffer->rPt;
-		buffer->rPt = incrementAddress(buffer, buffer->rPt);
-		out++;
-		nBytes++;
-		buffer->count--;
-	}
-	// Clear overflow flag
-	buffer->overflow = false;
+	 /*
+	  *
+	  *
+	  *
+	  *
+	  * */
 
 	return nBytes;
 }

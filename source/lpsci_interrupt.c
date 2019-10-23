@@ -65,7 +65,7 @@
  ******************************************************************************/
 
 uint8_t g_tipString[] = "LPSCI functional API interrupt example\r\nBoard receives characters then sends them out\r\nNow please input:\r\n";
-bool new_line_flag = false;
+volatile bool new_line_flag = false;
 
 buffer_t rxBuffer_handler;
 buffer_t txBuffer_handler;
@@ -81,19 +81,11 @@ void DEMO_LPSCI_IRQHandler(void) {
 
 	/* If new data arrived. */
 	if ((kLPSCI_RxDataRegFullFlag) & LPSCI_GetStatusFlags(DEMO_LPSCI)) {
-		data = LPSCI_ReadByte(DEMO_LPSCI);
-		if (data == '\r' || data == '\n')
-			new_line_flag = true;
-		RbufferWrite(&rxBuffer_handler, &data, 1);
+
 	}
 	/*If there are data to send*/
 	if ((kLPSCI_TxDataRegEmptyFlag & LPSCI_GetStatusFlags(DEMO_LPSCI))) {
-		RbufferRead(&txBuffer_handler, &data, 1);
-		LPSCI_WriteByte(DEMO_LPSCI, data);
 
-		/* Disable TX interrupt If there are NO data to send */
-		if (RbufferNumOfElements(&txBuffer_handler) == 0)
-			LPSCI_DisableInterrupts(DEMO_LPSCI, kLPSCI_TxDataRegEmptyInterruptEnable);
 	}
 
 }
@@ -139,15 +131,6 @@ int main(void) {
 		while (!new_line_flag) {
 		};
 
-		new_line_flag = false; /* Clear new line flag */
 
-		/* Copy data  from rxBuffer to txbuffer*/
-		uint16_t count = RbufferNumOfElements(&rxBuffer_handler);
-		uint8_t buffer[count];
-		RbufferRead(&rxBuffer_handler, buffer, count);
-
-		/* Write new line to txHandler and enable Tx interrupt*/
-		RbufferWrite(&txBuffer_handler, buffer, count);
-		LPSCI_EnableInterrupts(DEMO_LPSCI, kLPSCI_TxDataRegEmptyInterruptEnable);
 	}
 }
