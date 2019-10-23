@@ -1,0 +1,8 @@
+RingBuffer.c:14:11:incrementAddress	24	static
+RingBuffer.c:18:6:RbufferIsFull	16	static
+RingBuffer.c:23:8:RbufferWrite	32	static
+RingBuffer.c:44:8:RbufferRead	32	static
+RingBuffer.c:59:6:RbufferInit	24	static
+RingBuffer.c:68:8:RbufferCapacity	16	static
+RingBuffer.c:72:8:RbufferNumOfElements	16	static
+RingBuffer.c:77:6:RBufferOverflow	16	static
